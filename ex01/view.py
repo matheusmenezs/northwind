@@ -15,7 +15,7 @@ class View():
         option = int(input("Type an option: "))
         return option
 
-    def getOrderData(self):
+    def createOrderData(self):
         orderid = input("Type the Order id: ")
         customerid = input("Type the Custumer Id: ")
         employeeid = input("Type the Employee Id: ")
@@ -41,6 +41,59 @@ class View():
                   freight, shipname, shipaddress, shipcity,
                   shipregion, shippostalcode, shipcountry, shipperid]
         return values
+
+    def getOrderCod(self):
+        orderid = int(input("Type the Order id: "))
+        return orderid
+
+    def updateOrderData(self, orderid):
+        attributes = {1: 'customerid', 2: 'employeeid', 3: 'orderdate', 4: 'requireddate', 5: 'shippeddate', 6: 'freight',
+                      7: 'shipname', 8: 'shipaddress', 9: 'shipcity', 10: 'shipregion', 11: 'shippostalcode', 12: 'shipcountry', 13: 'shipperid'}
+        print("Type the atribute to update: ")
+        print("1: Customer identifier")
+        print("2: Employee identifier")
+        print("3: Order date")
+        print("4: Required date")
+        print("5: Shipped date")
+        print("6: Freight")
+        print("7: Ship name")
+        print("8: Ship address")
+        print("9: Ship city")
+        print("10: Ship region")
+        print("11: Ship postal code")
+        print("12: Ship country")
+        print("13: Shipper id")
+        option = int(input("Type an option: "))
+        value = input("Type the new value: ")
+        if (option == 1 or option == 2 or option == 13):
+            value = int(value)
+        elif (option == 3 or option == 4 or option == 5):
+            year, month, day = map(int, value.split('-'))
+            value = datetime(year, month, day)
+        elif (option == 6):
+            value = float(value)
+        else:
+            value = str(value)
+        return (orderid, attributes[option], value)
+
+    def printOrder(self, order):
+        if (order is not None):
+            print("Order id: ", order.orderid)
+            print("Customer id: ", order.customerid)
+            print("Employee id: ", order.employeeid)
+            print("Order date: ", order.orderdate)
+            print("Required date: ", order.requireddate)
+            print("Shipped date: ", order.shippeddate)
+            print("Freight: ", order.freight)
+            print("Ship name: ", order.shipname)
+            print("Ship address: ", order.shipaddress)
+            print("Ship city: ", order.shipcity)
+            print("Ship region: ", order.shipregion)
+            print("Ship postal code: ", order.shippostalcode)
+            print("Ship country: ", order.shipcountry)
+            print("Shipper id: ", order.shipperid)
+        else:
+            print("Order not found")
 
     def printStatus(self, status):
         if status == 'Sucess':

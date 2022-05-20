@@ -8,7 +8,7 @@ class Controller:
 
         while option != 8:
             if option == 1:
-                l = self.view.getOrderData()
+                l = self.view.createOrderData()
                 #order = OrderM.createOrder(l)
                 status = OrderM.registerOrder('')
                 self.view.printStatus(status)
@@ -25,7 +25,7 @@ class Controller:
                 order = OrderM.readOrder(id)
                 self.view.printOrder(order)
                 if(order is not None):
-                    l = self.view.getOrderDataUpdate(id)
+                    l = self.view.updateOrderData(id)
                     status = OrderM.updateOrder(l)
                     self.view.printStatus(status)
             option = self.view.main()

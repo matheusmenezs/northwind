@@ -4,6 +4,7 @@ from config import config
 from psycopg2.extensions import AsIs
 from datetime import datetime
 
+
 class OrderM():
     def __init__(self, orderid, customerid, employeeid, orderdate, requireddate, shippeddate, freight, shipname, shipaddress, shipcity, shipregion, shippostalcode, shipcountry, shipperid):
         self.orderid = orderid
@@ -43,7 +44,7 @@ class OrderM():
     def registerOrder(order):
         query = "INSERT INTO northwind.orders (orderid, customerid, employeeid, orderdate, requireddate, shippeddate, freight, shipname, shipaddress, shipcity, shipregion, shippostalcode, shipcountry, shipperid) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         values = (order.orderid, order.customerid, order.employeeid, order.orderdate, order.requireddate, order.shippeddate, order.freight,
-        order.shipname, order.shipaddress, order.shipcity, order.shipregion, order.shippostalcode, order.shipcountry, order.shipperid)
+                  order.shipname, order.shipaddress, order.shipcity, order.shipregion, order.shippostalcode, order.shipcountry, order.shipperid)
         status = config.alterDatabase(config, query, values)
         return status
 
@@ -66,6 +67,3 @@ class OrderM():
         query = "DELETE FROM northwind.orders WHERE orderid = %s;"
         status = config.alterDatabase(config, query, orderId, [orderId])
         return status
-
-    
-    
