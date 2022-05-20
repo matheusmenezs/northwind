@@ -8,17 +8,19 @@ class config:
     def setParameters(self):
         self.connectiondata = {
             'host': 'localhost',
-            'dbname': 'Northwind',
+            'dbname': 'northwind',
             'user': 'postgres',
             'password': 'postgres'
         }
+        return self
 
     def alterDatabase(self, query, values):
-        conn = None
+        connection = None
         try:
             # connect to the PostgreSQL database
             connection = psycopg2.connect(
                 config.setParameters(self).connectiondata)
+
             # create a new cursor (open a session)
             session = connection.cursor()
 
@@ -34,10 +36,10 @@ class config:
         except psycopg2.Error:
             return psycopg2.Error
         finally:
-            if conn is not None:
-                conn.close()
+            if connection is not None:
+                connection.close()
         return 'Success'
-        
+
     def consultDatabase(self, query, values):
         conn = None
         try:
@@ -63,6 +65,6 @@ class config:
         except psycopg2.Error:
             return psycopg2.Error
         finally:
-            if conn is not None:
-                conn.close()
+            if connection is not None:
+                connection.close()
         return (colnames, registers)

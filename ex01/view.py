@@ -34,3 +34,9 @@ class View():
                   freight, shipname, shipaddress, shipcity,
                   shipregion, shippostalcode, shipcountry, shipperid]
         return values
+
+    def printStatus(status):
+        if status:
+            print(status)
+        else:
+            print("Error")
