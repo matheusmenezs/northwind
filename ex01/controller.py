@@ -6,12 +6,17 @@ class Controller:
     def main(self):
         option = self.view.main()
 
-        while option != 8:
+        while option != 5:
             if option == 1:
                 l = self.view.createOrderData()
                 order = OrderM.createOrder(l)
-                status = OrderM.registerOrder(order)
-                self.view.printStatus(status)
+                validCustomerid = OrderM.validateCustomer(order.customerid)
+                validEmployeeid = OrderM.validateEmployee(order.employeeid)
+                validate = self.view.validateOrder(
+                    validCustomerid, validEmployeeid)
+                if (validate == True):
+                    status = OrderM.registerOrder(order)
+                    self.view.printStatus(status)
             if option == 2:
                 id = self.view.getOrderCod()
                 order = OrderM.readOrder(id)
@@ -28,7 +33,7 @@ class Controller:
                 id = self.view.getOrderCod()
                 status = OrderM.deleteOrder(id)
                 self.view.printStatus(status)
-            
+
             option = self.view.main()
 
     def __init__(self):

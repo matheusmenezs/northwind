@@ -46,6 +46,24 @@ class OrderM():
         status = config.alterDatabase(config, query, values)
         return status
 
+    def validateCustomer(customerId):
+        query = "SELECT * FROM northwind.customers WHERE customerid = %s;"
+        values = config.consultDatabase(config, query, [customerId])
+        if(len(values[1]) != 0):
+            validCustomerid = True
+        else:
+            validCustomerid = False
+        return validCustomerid
+
+    def validateEmployee(employeeId):
+        query = "SELECT * FROM northwind.employees WHERE employeeid = %s;"
+        values = config.consultDatabase(config, query, [employeeId])
+        if(len(values[1]) != 0):
+            validEmployeeid = True
+        else:
+            validEmployeeid = False
+        return validEmployeeid
+
     def readOrder(orderId):
         query = "SELECT * FROM northwind.orders WHERE orderid = %s;"
         values = config.consultDatabase(config, query, [orderId])

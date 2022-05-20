@@ -6,7 +6,7 @@ class config:
         self.connectiondata = connectiondata
 
     def setParameters(self):
-        self.connectiondata = "host='localhost' dbname='northwind' user='postgres' password='12345'"
+        self.connectiondata = "host='localhost' dbname='northwind' user='postgres' password='postgres'"
         return self
 
     def alterDatabase(self, query, values):

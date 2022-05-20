@@ -100,3 +100,9 @@ class View():
             print("Order registered successfully")
         else:
             print(status)
+
+    def validateOrder(self, validCustomerid, validEmployeeid):
+        if (validCustomerid and validEmployeeid == True):
+            return True
+        else:
+            return print("Error: Employee or Customer not found")
