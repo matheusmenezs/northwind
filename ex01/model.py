@@ -1,6 +1,8 @@
+from decimal import *
+from unicodedata import decimal
 from config import config
+from psycopg2.extensions import AsIs
 from datetime import datetime
-
 
 class OrderM():
     def __init__(self, orderid, customerid, employeeid, orderdate, requireddate, shippeddate, freight, shipname, shipaddress, shipcity, shipregion, shippostalcode, shipcountry, shipperid):
@@ -27,7 +29,7 @@ class OrderM():
             datetime.timestamp(valueList[3]),
             datetime.timestamp(valueList[4]),
             datetime.timestamp(valueList[5]),
-            float(valueList[6]),
+            decimal(valueList[6]),
             str(valueList[7]),
             str(valueList[8]),
             str(valueList[9]),
@@ -40,16 +42,9 @@ class OrderM():
 
     def registerOrder(order):
         query = "INSERT INTO northwind.orders (orderid, customerid, employeeid, orderdate, requireddate, shippeddate, freight, shipname, shipaddress, shipcity, shipregion, shippostalcode, shipcountry, shipperid) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        # values = (order.orderid, order.customerid, order.employeeid, order.orderdate, order.requireddate, order.shippeddate, order.freight,
-        # order.shipname, order.shipaddress, order.shipcity, order.shipregion, order.shippostalcode, order.shipcountry, order.shipperid)
-        values = [81, 'RATTC', 1, '1996-06-05 00:00:00', '1996-06-05 00:00:00', '1996-06-05 00:00:00',
-                  8.5, 'Rattlesnake Canyon Grocery', '2817 Milton Dr.', 'Albuquerque', 'NM', '37508000', 'BRA', 1]
+        values = (order.orderid, order.customerid, order.employeeid, order.orderdate, order.requireddate, order.shippeddate, order.freight,
+        order.shipname, order.shipaddress, order.shipcity, order.shipregion, order.shippostalcode, order.shipcountry, order.shipperid)
         status = config.alterDatabase(config, query, values)
-        return status
-
-    def deleteOrder(orderId):
-        query = "DELETE FROM northwind.orders WHERE orderid = %s;"
-        status = config.alterDatabase(config, query, orderId, [orderId])
         return status
 
     def readOrder(orderId):
@@ -60,3 +55,17 @@ class OrderM():
             return order
         else:
             return None
+
+    def updateOrder(order):
+        query = """UPDATE northwind.orders SET %s = %s WHERE orderid = %s"""
+        parameters = ((AsIs(order[1])), int(order[2]), int(order[0]))
+        status = config.alterDatabase(config, query, parameters)
+        return status
+
+    def deleteOrder(orderId):
+        query = "DELETE FROM northwind.orders WHERE orderid = %s;"
+        status = config.alterDatabase(config, query, orderId, [orderId])
+        return status
+
+    
+    
