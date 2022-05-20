@@ -62,6 +62,8 @@ class OrderM():
         return status
 
     def deleteOrder(orderId):
+        query = "DELETE FROM northwind.order_details WHERE orderid = %s"
+        config.alterDatabase(config, query, [orderId])
         query = "DELETE FROM northwind.orders WHERE orderid = %s;"
         status = config.alterDatabase(config, query, [orderId])
         return status
