@@ -65,7 +65,7 @@ class View():
         print("13: Shipper id")
         option = int(input("Type an option: "))
         value = input("Type the new value: ")
-        if (option == 1 or option == 2 or option == 13):
+        if (option == 2 or option == 13):
             value = int(value)
         elif (option == 3 or option == 4 or option == 5):
             year, month, day = map(int, value.split('-'))

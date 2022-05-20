@@ -6,7 +6,7 @@ class config:
         self.connectiondata = connectiondata
 
     def setParameters(self):
-        self.connectiondata = "host='localhost' dbname='northwind' user='postgres' password='postgres'"
+        self.connectiondata = "host='localhost' dbname='northwind' user='postgres' password='12345'"
         return self
 
     def alterDatabase(self, query, values):
@@ -28,10 +28,9 @@ class config:
             # close the session
             session.close()
 
-        except psycopg2.Error:
-            print(psycopg2.Error)
-            print(psycopg2.Error.args[0])
-            return psycopg2.Error
+        except psycopg2.OperationalError as e:
+            print('Unable to connect!\n{0}').format(e)
+            return psycopg2.OperationalError
         finally:
             if conn is not None:
                 conn.close()
@@ -59,8 +58,9 @@ class config:
             # close the session
             session.close()
 
-        except psycopg2.Error:
-            return psycopg2.Error
+        except psycopg2.OperationalError as e:
+            print('Unable to connect!\n{0}').format(e)
+            return psycopg2.OperationalError
         finally:
             if conn is not None:
                 conn.close()

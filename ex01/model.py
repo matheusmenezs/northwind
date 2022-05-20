@@ -1,5 +1,3 @@
-from decimal import *
-from unicodedata import decimal
 from config import config
 from psycopg2.extensions import AsIs
 from datetime import datetime
@@ -25,19 +23,19 @@ class OrderM():
     def createOrder(valueList):
         order = OrderM(
             int(valueList[0]),
-            int(valueList[1]),
+            str(valueList[1]),
             int(valueList[2]),
-            datetime.timestamp(valueList[3]),
-            datetime.timestamp(valueList[4]),
-            datetime.timestamp(valueList[5]),
-            decimal(valueList[6]),
+            valueList[3],
+            valueList[4],
+            valueList[5],
+            float(valueList[6]),
             str(valueList[7]),
             str(valueList[8]),
             str(valueList[9]),
             str(valueList[10]),
             str(valueList[11]),
             str(valueList[12]),
-            int(valueList[13])
+            valueList[13]
         )
         return order
 
@@ -59,11 +57,11 @@ class OrderM():
 
     def updateOrder(order):
         query = """UPDATE northwind.orders SET %s = %s WHERE orderid = %s"""
-        parameters = ((AsIs(order[1])), int(order[2]), int(order[0]))
+        parameters = ((AsIs(order[1])), order[2], int(order[0]))
         status = config.alterDatabase(config, query, parameters)
         return status
 
     def deleteOrder(orderId):
         query = "DELETE FROM northwind.orders WHERE orderid = %s;"
-        status = config.alterDatabase(config, query, orderId, [orderId])
+        status = config.alterDatabase(config, query, [orderId])
         return status

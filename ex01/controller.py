@@ -9,18 +9,14 @@ class Controller:
         while option != 8:
             if option == 1:
                 l = self.view.createOrderData()
-                #order = OrderM.createOrder(l)
-                status = OrderM.registerOrder('')
+                order = OrderM.createOrder(l)
+                status = OrderM.registerOrder(order)
                 self.view.printStatus(status)
             if option == 2:
                 id = self.view.getOrderCod()
                 order = OrderM.readOrder(id)
-                self.view.printStatus(order)
+                self.view.printOrder(order)
             if option == 3:
-                id = self.view.getOrderCod()
-                status = OrderM.deleteOrder(id)
-                self.view.printStatus(status)
-            if option == 4:
                 id = self.view.getOrderCod()
                 order = OrderM.readOrder(id)
                 self.view.printOrder(order)
@@ -28,6 +24,11 @@ class Controller:
                     l = self.view.updateOrderData(id)
                     status = OrderM.updateOrder(l)
                     self.view.printStatus(status)
+            if option == 4:
+                id = self.view.getOrderCod()
+                status = OrderM.deleteOrder(id)
+                self.view.printStatus(status)
+            
             option = self.view.main()
 
     def __init__(self):
