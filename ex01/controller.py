@@ -13,7 +13,9 @@ class Controller:
                 status = OrderM.registerOrder(order)
                 self.view.printStatus(status)
 
+    def __init__(self):
+        self.view = View()
 
 if __name__ == "__main__":
     main = Controller()
-    main.main
+    main.main()
