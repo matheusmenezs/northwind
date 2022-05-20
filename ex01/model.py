@@ -47,7 +47,16 @@ class OrderM():
         status = config.alterDatabase(config, query, values)
         return status
 
-    def deleteOrder(orderid):
+    def deleteOrder(orderId):
         query = "DELETE FROM northwind.orders WHERE orderid = %s;"
-        status = config.alterDatabase(config, query, orderid, [orderid])
+        status = config.alterDatabase(config, query, orderId, [orderId])
         return status
+
+    def readOrder(orderId):
+        query = "SELECT * FROM northwind.orders WHERE orderid = %s;"
+        values = config.consultDatabase(config, query, [orderId])
+        if(len(values[1]) != 0):
+            order = OrderM.createOrder(values[1][0])
+            return order
+        else:
+            return None
