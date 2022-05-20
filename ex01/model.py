@@ -1,49 +1,51 @@
+from config import config
 from datetime import datetime
 
 
-class View():
-    def main(self):
-        return self.menu()
+class OrderM():
+    def __init__(self, orderid, customerid, employeeid, orderdate, requireddate, shippeddate, freight, shipname, shipaddress, shipcity, shipregion, shippostalcode, shipcountry, shipperid):
+        self.orderid = orderid
+        self.customerid = customerid
+        self.employeeid = employeeid
+        self.orderdate = orderdate
+        self.requireddate = requireddate
+        self.shippeddate = shippeddate
+        self.freight = freight
+        self.shipname = shipname
+        self.shipaddress = shipaddress
+        self.shipcity = shipcity
+        self.shipregion = shipregion
+        self.shippostalcode = shippostalcode
+        self.shipcountry = shipcountry
+        self.shipperid = shipperid
 
-    def menu(self):
-        print("-----Menu-----")
-        print("1.Create Order")
-        print("2.Read Order")
-        print("3.Update Order")
-        print("4.Delete Order")
-        print("5.Exit")
-        option = int(input("Type an option: "))
-        return option
+    def createOrder(valueList):
+        order = OrderM(
+            int(valueList[0]),
+            int(valueList[1]),
+            int(valueList[2]),
+            datetime.timestamp(valueList[3]),
+            datetime.timestamp(valueList[4]),
+            datetime.timestamp(valueList[5]),
+            float(valueList[6]),
+            str(valueList[7]),
+            str(valueList[8]),
+            str(valueList[9]),
+            str(valueList[10]),
+            str(valueList[11]),
+            str(valueList[12]),
+            int(valueList[13])
+        )
+        return order
 
-    def getOrderData(self):
-        orderid = input("Type the Order id: ")
-        customerid = input("Type the Custumer Id: ")
-        employeeid = input("Type the Employee Id: ")
-        orderdate = input("Type the Order Date (YYYY-MM-DD): ")
-        requireddate = input("Type the Required Date (YYYY-MM-DD): ")
-        shippeddate = input("Type the Shipped Date (YYYY-MM-DD): ")
-        freight = input("Type the Freight: ")
-        shipname = input("Type the Ship name: ")
-        shipaddress = input("Type the Ship Address: ")
-        shipcity = input("Type the Ship City: ")
-        shipregion = input("Type the Ship Region: ")
-        shippostalcode = input("Type the Ship Postal Code: ")
-        shipcountry = input("Type the Ship Country: ")
-        shipperid = input("Type the Shipper Id: ")
-        year, month, day = map(int, orderdate.split('-'))
-        orderdate = datetime(year, month, day)
-        year, month, day = map(int, requireddate.split('-'))
-        requireddate = datetime(year, month, day)
-        year, month, day = map(int, shippeddate.split('-'))
-        shippeddate = datetime(year, month, day)
-        values = [orderid, customerid, employeeid,
-                  orderdate, requireddate, shippeddate,
-                  freight, shipname, shipaddress, shipcity,
-                  shipregion, shippostalcode, shipcountry, shipperid]
-        return values
+    def registerOrder(order):
+        query = "INSERT INTO northwind.orders (orderid, customerid, employeeid, orderdate, requireddate, shippeddate, freight, shipname, shipaddress, shipcity, shipregion, shippostalcode, shipcountry, shipperid) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        values = (order.orderid, order.customerid, order.employeeid, order.orderdate, order.requireddate, order.shippeddate, order.freight,
+                  order.shipname, order.shipaddress, order.shipcity, order.shipregion, order.shippostalcode, order.shipcountry, order.shipperid)
+        status = config.alterDatabase(config, query, values)
+        return status
 
-    def printStatus(self, status):
-        if status:
-            print(status, "Order registered successfully")
-        else:
-            print("Order not registered")
+    def deleteOrder(orderid):
+        query = "DELETE FROM northwind.orders WHERE orderid = %s;"
+        status = config.alterDatabase(config, query, orderid, [orderid])
+        return status
