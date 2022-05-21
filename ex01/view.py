@@ -101,8 +101,14 @@ class View():
         else:
             print(status)
 
-    def validateOrder(self, validCustomerid, validEmployeeid):
-        if (validCustomerid and validEmployeeid == True):
+    def validateCustomer(self, customerid):
+        if(customerid == True):
             return True
         else:
-            return print("Error: Employee or Customer not found")
+            return print("Error: Customer not found")
+
+    def validateEmployee(self, employeeid):
+        if(employeeid == True):
+            return True
+        else:
+            return print("Error: Employee not found")

@@ -12,9 +12,9 @@ class Controller:
                 order = OrderM.createOrder(l)
                 validCustomerid = OrderM.validateCustomer(order.customerid)
                 validEmployeeid = OrderM.validateEmployee(order.employeeid)
-                validate = self.view.validateOrder(
-                    validCustomerid, validEmployeeid)
-                if (validate == True):
+                self.view.validateCustomer(validCustomerid)
+                self.view.validateEmployee(validEmployeeid)
+                if (validCustomerid and validEmployeeid == True):
                     status = OrderM.registerOrder(order)
                     self.view.printStatus(status)
             if option == 2:
@@ -27,8 +27,21 @@ class Controller:
                 self.view.printOrder(order)
                 if(order is not None):
                     l = self.view.updateOrderData(id)
-                    status = OrderM.updateOrder(l)
-                    self.view.printStatus(status)
+                    if (l[1] == 'employeeid'):
+                        validEmployeeid = OrderM.validateEmployee(l[2])
+                        self.view.validateEmployee(validEmployeeid)
+                        if (validEmployeeid == True):
+                            status = OrderM.updateOrder(l)
+                            self.view.printStatus(status)
+                    elif(l[1] == 'customerid'):
+                        validCustomerid = OrderM.validateCustomer(l[2])
+                        self.view.validateCustomer(validCustomerid)
+                        if (validCustomerid == True):
+                            status = OrderM.updateOrder(l)
+                            self.view.printStatus(status)
+                    else:
+                        status = OrderM.updateOrder(l)
+                        self.view.printStatus(status)
             if option == 4:
                 id = self.view.getOrderCod()
                 status = OrderM.deleteOrder(id)
